@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minova Technologies | Learning Platform</title>
+<link rel="icon" type="image/png" href="site logo.jpeg">
+<link rel="apple-touch-icon" href="site logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#02040b; --navy:#071433; --blue:#2f7bff; --cyan:#4fd8ff;
+  --text:#e8eefc; --muted:#8fa0c4;
+  --glass:rgba(255,255,255,.05); --line:rgba(120,160,255,.18);
+  --head:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--body);color:var(--text);line-height:1.6;min-height:100vh;
+  background:radial-gradient(1100px 700px at 50% -10%,#0c2a6b 0%,var(--navy) 38%,var(--bg) 78%) fixed,var(--bg)}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--head);line-height:1.15;letter-spacing:-.02em}
+section{padding:88px 6vw;max-width:1180px;margin:0 auto}
+.sec-head{margin-bottom:36px;max-width:560px}
+.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:10px}
+.sec-head p{color:var(--muted)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+/* header */
+header{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(2,4,11,.62);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.bar{max-width:1180px;margin:auto;height:68px;padding:0 6vw;display:flex;align-items:center;gap:24px}
+.brand{font-family:var(--head);font-weight:700;font-size:1.15rem;line-height:1;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo{height:40px;width:auto;max-width:100%;object-fit:contain;display:block;flex-shrink:0}
+.brand span{white-space:nowrap}
+.right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+nav{margin-left:auto}
+nav ul{display:flex;gap:4px;list-style:none;align-items:center}
+nav a{display:block;padding:8px 12px;border-radius:999px;color:var(--muted);font-size:.92rem;line-height:1.4;white-space:nowrap;transition:color .2s,background .2s}
+nav a:hover{color:#fff;background:var(--glass)}
+nav a.signup{background:linear-gradient(135deg,var(--blue),#1a4fd0);color:#fff;box-shadow:0 0 18px rgba(47,123,255,.45);margin-left:6px}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--text);width:42px;height:42px;border-radius:10px;font-size:1.3rem;cursor:pointer}
+
+/* hero */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-top:130px}
+.hero h1{font-size:clamp(2.3rem,5.6vw,4rem);margin-bottom:18px}
+.hero p{color:var(--muted);max-width:480px;margin-bottom:28px;font-size:1.05rem}
+.btn{display:inline-block;border:0;cursor:pointer;font:600 .95rem var(--body);padding:12px 24px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,var(--blue),#1a4fd0);box-shadow:0 0 20px rgba(47,123,255,.4);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(79,216,255,.55)}
+.btn.ghost{background:var(--glass);border:1px solid var(--line);box-shadow:none;margin-left:10px}
+.orb-wrap{display:grid;place-items:center;position:relative;height:380px}
+.orb{width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#bfeaff 0%,var(--cyan) 18%,var(--blue) 50%,#07123a 100%);
+  box-shadow:0 0 80px 10px rgba(47,123,255,.55),0 0 200px 40px rgba(79,216,255,.18);animation:breathe 5s ease-in-out infinite}
+.ring{position:absolute;border:1px solid rgba(79,216,255,.3);border-radius:50%;animation:ripple 5s ease-out infinite}
+.ring:nth-child(1){width:300px;height:300px}
+.ring:nth-child(2){width:380px;height:380px;animation-delay:1.6s}
+.hero-logo{position:absolute;z-index:2;width:176px;height:176px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,#0a1d4d 0%,#050c22 70%,var(--bg) 100%);
+  border:2px solid rgba(79,216,255,.75);
+  box-shadow:0 0 18px 2px rgba(79,216,255,.7),0 0 50px 8px rgba(47,123,255,.55),0 0 110px 20px rgba(47,123,255,.3),inset 0 0 26px rgba(47,123,255,.45);
+  animation:logoGlow 4s ease-in-out infinite}
+.hero-logo::before{content:"";position:absolute;inset:-12px;border-radius:50%;
+  border:1px solid transparent;border-top-color:var(--cyan);border-right-color:rgba(47,123,255,.6);
+  animation:spin 6s linear infinite}
+.hero-logo img{width:70%;height:70%;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 8px rgba(79,216,255,.6))}
+@keyframes logoGlow{0%,100%{box-shadow:0 0 18px 2px rgba(79,216,255,.6),0 0 50px 8px rgba(47,123,255,.45),0 0 110px 20px rgba(47,123,255,.25),inset 0 0 26px rgba(47,123,255,.4)}
+  50%{box-shadow:0 0 28px 6px rgba(79,216,255,.9),0 0 70px 14px rgba(47,123,255,.7),0 0 140px 30px rgba(47,123,255,.4),inset 0 0 36px rgba(79,216,255,.55)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{50%{transform:scale(1.07)}}
+@keyframes ripple{0%{opacity:.8;transform:scale(.7)}100%{opacity:0;transform:scale(1.15)}}
+
+.eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--glass);color:var(--cyan);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chips span{padding:6px 14px;border-radius:999px;font-size:.84rem;background:rgba(47,123,255,.14);border:1px solid var(--line);color:var(--text)}
+
+/* glass cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:26px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:flex;flex-direction:column;gap:12px;transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:rgba(79,216,255,.5);box-shadow:0 0 34px rgba(47,123,255,.22)}
+.card .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:linear-gradient(135deg,rgba(47,123,255,.4),rgba(79,216,255,.15));border:1px solid var(--line)}
+.card h3{font-size:1.15rem}
+.card p{color:var(--muted);font-size:.95rem;flex:1}
+.card .btn{align-self:flex-start;padding:10px 20px}
+.lang .ic{font-family:var(--head);font-weight:700;font-size:1.05rem;color:var(--cyan)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{padding:4px 10px;border-radius:999px;font-size:.76rem;background:rgba(47,123,255,.14);border:1px solid var(--line);color:var(--text)}
+.card .cap{flex:0 0 auto;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.card .cap b{color:var(--cyan);font-weight:600}
+
+/* industry workflow */
+.flow{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.flow .step{display:flex;flex-direction:column;gap:10px}
+.flow-note{margin-top:26px;color:var(--muted);font-size:.95rem;max-width:720px}
+
+/* how it works */
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.step{position:relative;padding:26px 24px 24px;border-left:2px solid var(--blue);background:linear-gradient(90deg,rgba(47,123,255,.12),transparent)}
+.step::before{counter-increment:s;content:counter(s);font:700 1.9rem var(--head);color:var(--cyan);display:block;margin-bottom:6px}
+.step p{color:var(--muted);font-size:.95rem}
+
+/* auth + profile */
+[data-user]{display:none}
+.authed [data-user]{display:grid}
+.authed [data-guest]{display:none}
+.avatar{width:42px;height:42px;border-radius:50%;place-items:center;border:1px solid rgba(79,216,255,.5);cursor:pointer;color:#fff;font:700 1.05rem var(--head);background:linear-gradient(135deg,var(--blue),#0b2a8a);box-shadow:0 0 16px rgba(47,123,255,.55)}
+.tabs{display:flex;gap:6px;padding:4px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);margin:4px 0 20px;clear:both}
+.tabs button{flex:1;padding:9px;border:0;border-radius:999px;background:none;color:var(--muted);font:600 .92rem var(--body);cursor:pointer}
+.tabs button[aria-selected=true]{background:linear-gradient(135deg,var(--blue),#1a4fd0);color:#fff}
+.pavatar{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font:700 2rem var(--head);margin-bottom:14px;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 0 30px rgba(79,216,255,.5)}
+.pdl dt{color:var(--muted);font-size:.82rem;margin-top:16px}
+.pdl dd{margin-top:4px;word-break:break-all}
+.status{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(93,242,176,.12);border:1px solid rgba(93,242,176,.4);color:#5df2b0;font-size:.88rem}
+#myCourses{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 14px;border-radius:999px;background:rgba(47,123,255,.18);border:1px solid var(--line);font-size:.88rem}
+.empty{color:var(--muted)}
+@media(max-width:420px){.brand span{font-size:1rem}}
+
+footer{text-align:center;color:var(--muted);padding:40px 6vw;border-top:1px solid var(--line);font-size:.9rem}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(1,3,10,.72);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.open{opacity:1;visibility:visible}
+.modal{width:min(440px,100%);max-height:92vh;overflow:auto;background:linear-gradient(160deg,rgba(14,34,84,.92),rgba(3,6,18,.95));
+  border:1px solid rgba(79,216,255,.3);border-radius:24px;padding:30px;box-shadow:0 0 70px rgba(47,123,255,.35);
+  transform:translateY(24px) scale(.96);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
+.overlay.open .modal{transform:none}
+.modal h2{font-size:1.4rem;margin-bottom:4px}
+.modal .sub{color:var(--muted);font-size:.92rem;margin-bottom:20px}
+.x{float:right;background:none;border:0;color:var(--muted);font-size:1.6rem;cursor:pointer;line-height:1}
+label{display:block;font-size:.85rem;color:var(--muted);margin:14px 0 6px}
+input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font:1rem var(--body)}
+input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(79,216,255,.18)}
+input[readonly]{color:var(--cyan);border-style:dashed}
+.modal .btn{width:100%;margin-top:22px;padding:14px}
+.modal .btn:disabled{opacity:.6;cursor:wait}
+.msg{margin-top:14px;font-size:.92rem;min-height:1.3em}
+.msg.ok{color:#5df2b0}.msg.err{color:#ff8a8a}
+
+@media(max-width:1120px){
+  .bar{justify-content:space-between}
+  .right{margin-left:auto}
+  .burger{display:block}
+  nav{position:absolute;top:68px;left:0;right:0;margin-left:0;background:rgba(2,4,11,.96);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .35s}
+  nav.open{max-height:520px}
+  nav ul{flex-direction:column;align-items:stretch;gap:2px;padding:12px 6vw 20px}
+  nav a{padding:12px 14px}
+  nav a.signup{margin-left:0;text-align:center}
+}
+@media(max-width:860px){
+  .burger{display:block}
+  nav{position:absolute;top:68px;left:0;right:0;background:rgba(2,4,11,.96);border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .35s}
+  nav.open{max-height:420px}
+  nav ul{flex-direction:column;align-items:stretch;padding:12px 6vw 20px}
+  nav a{display:block;padding:12px 14px}
+  .hero{grid-template-columns:1fr;text-align:left;padding-top:110px}
+  .orb-wrap{height:300px;order:-1}
+  .orb{width:160px;height:160px}
+  .hero-logo{width:128px;height:128px}
+  .ring:nth-child(1){width:220px;height:220px}.ring:nth-child(2){width:290px;height:290px}
+  section{padding:64px 6vw}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a href="#home" class="brand">
+      <!-- Swap src with your own logo file or a Base64 data URI -->
+      <img class="logo" src="site logo.jpeg" alt="Minova Technologies logo" height="40">
+      <span>Minova Technologies</span>
+    </a>
+    <nav id="nav">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#languages">Languages</a></li>
+        <li><a href="#" data-profile>Profile</a></li>
+        <li data-guest><a href="#" data-login>Login</a></li>
+        <li data-guest><a href="#" class="signup" data-signup>Sign Up</a></li>
+      </ul>
+    </nav>
+    <div class="right">
+      <button class="avatar" id="avatar" data-user aria-label="Open profile"></button>
+      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div>
+    <span class="eyebrow">Industry-aligned training academy</span>
+    <h1>Train the way industry works.</h1>
+    <p>Minova Technologies delivers practical, project-based training in web development, machine learning, data science and programming, structured around the real delivery workflow, from requirements to deployment.</p>
+    <a href="#courses" class="btn">Browse courses</a><a href="#workflow" class="btn ghost">Our workflow</a>
+    <div class="chips"><span>Git &amp; GitHub</span><span>Agile sprints</span><span>Code reviews</span><span>Capstone projects</span><span>Interview prep</span></div>
+  </div>
+  <div class="orb-wrap" aria-hidden="true"><div class="ring"></div><div class="ring"></div><div class="orb"></div><div class="hero-logo"><img src="site logo.jpeg" alt="Minova Technologies logo"></div></div>
+</section>
+
+<section id="about">
+  <div class="sec-head">
+    <h2>About Minova Technologies</h2>
+    <p>A career-focused learning academy that bridges the classroom and the workplace. Every course is led by working practitioners and mirrors how real teams plan, build, review and ship.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="ic">&#127891;</div><h3>Industry-mapped curriculum</h3><p>Syllabi built around the tools, practices and expectations of entry-level hiring teams.</p></div>
+    <div class="card"><div class="ic">&#128295;</div><h3>Project-first learning</h3><p>Short concept sessions followed straight away by guided exercises and graded mini-projects.</p></div>
+    <div class="card"><div class="ic">&#128269;</div><h3>Mentor code reviews</h3><p>Practitioners review your work the way a senior teammate would, with specific, actionable feedback.</p></div>
+    <div class="card"><div class="ic">&#128101;</div><h3>Team and sprint practice</h3><p>Work in small teams on timed sprints with task boards, stand-ups and end-of-sprint demos.</p></div>
+    <div class="card"><div class="ic">&#128193;</div><h3>Portfolio and documentation</h3><p>Every project ships with a clean repository, README and write-up you can share with recruiters.</p></div>
+    <div class="card"><div class="ic">&#128188;</div><h3>Career readiness</h3><p>Resume and LinkedIn guidance, mock technical interviews and role-specific preparation.</p></div>
+  </div>
+</section>
+
+<section id="workflow">
+  <div class="sec-head"><h2>Learn the way industry works</h2><p>Every program follows the same six-stage delivery cycle used by professional engineering and analytics teams.</p></div>
+  <div class="flow">
+    <div class="step"><h3>Requirements and planning</h3><p>Break a project brief into user stories, tasks and milestones, the way a product team scopes a sprint.</p><div class="tags"><span>User stories</span><span>Task boards</span><span>Estimation</span></div></div>
+    <div class="step"><h3>Design and architecture</h3><p>Sketch wireframes, data models and system structure before writing a single line of code.</p><div class="tags"><span>Wireframes</span><span>Data modelling</span><span>API design</span></div></div>
+    <div class="step"><h3>Build with version control</h3><p>Develop in feature branches with clean commits, readable code and documentation as you go.</p><div class="tags"><span>Git</span><span>GitHub</span><span>Branching</span></div></div>
+    <div class="step"><h3>Review and test</h3><p>Submit work for peer and mentor code review, then test and debug before anything is merged.</p><div class="tags"><span>Code review</span><span>Testing</span><span>Debugging</span></div></div>
+    <div class="step"><h3>Deploy and deliver</h3><p>Release a working build, present it to stakeholders and hand over clear documentation.</p><div class="tags"><span>Deployment</span><span>Demo</span><span>Documentation</span></div></div>
+    <div class="step"><h3>Retrospect and improve</h3><p>Reflect on what worked, record lessons learned and iterate on the next release.</p><div class="tags"><span>Retrospectives</span><span>Iteration</span><span>Portfolio</span></div></div>
+  </div>
+  <p class="flow-note">Data tracks apply the same cycle to datasets, models and dashboards: scope the business question, design the approach, build and validate it, review with a mentor, then present the results.</p>
+</section>
+
+<section id="courses">
+  <div class="sec-head"><h2>Career-track programs</h2><p>Four industry-aligned tracks, each ending in a capstone project built through the full delivery workflow. Enroll in under a minute.</p></div>
+  <div class="grid">
+    <div class="card"><div class="ic">&#127760;</div><h3>Full Stack Web Development</h3><p>Build production-style web applications end to end: responsive interfaces, server logic, databases and authentication, delivered through a Git-based workflow.</p><div class="tags"><span>HTML / CSS</span><span>JavaScript</span><span>Backend APIs</span><span>Databases</span><span>Git</span></div><div class="cap"><b>Capstone:</b> a deployed full-stack app with login and database.</div><button class="btn" data-course="Full Stack Web Development">Enroll Now</button></div>
+    <div class="card"><div class="ic">&#129302;</div><h3>Machine Learning</h3><p>Move from raw data to working models: preprocessing, feature engineering, training, evaluation and packaging a model for real use.</p><div class="tags"><span>Python</span><span>Pandas</span><span>scikit-learn</span><span>Model evaluation</span></div><div class="cap"><b>Capstone:</b> an end-to-end prediction project with documented results.</div><button class="btn" data-course="Machine Learning">Enroll Now</button></div>
+    <div class="card"><div class="ic">&#128302;</div><h3>Data Science</h3><p>Apply statistics, exploration and visualization to business questions, and communicate findings the way an analytics team would.</p><div class="tags"><span>Python</span><span>Statistics</span><span>Visualization</span><span>Storytelling</span></div><div class="cap"><b>Capstone:</b> a data-driven case study with insights and recommendations.</div><button class="btn" data-course="Data Science">Enroll Now</button></div>
+    <div class="card"><div class="ic">&#128202;</div><h3>Data Analyst</h3><p>Clean, analyse and present data with Excel, SQL and dashboards, working from a business request through to a stakeholder-ready report.</p><div class="tags"><span>Excel</span><span>SQL</span><span>Dashboards</span><span>Reporting</span></div><div class="cap"><b>Capstone:</b> an interactive business dashboard with an insights summary.</div><button class="btn" data-course="Data Analyst">Enroll Now</button></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="sec-head"><h2>How it works</h2><p>From sign-up to your first project in four steps.</p></div>
+  <div class="steps">
+    <div class="step"><h3>Choose a course</h3><p>Select a main track or a programming language.</p></div>
+    <div class="step"><h3>Fill the form</h3><p>Share your name, college, register number and phone.</p></div>
+    <div class="step"><h3>Get confirmed</h3><p>Our team contacts you with batch timings and onboarding details.</p></div>
+    <div class="step"><h3>Learn and build</h3><p>Attend live sessions, follow the delivery workflow and complete a portfolio project.</p></div>
+  </div>
+</section>
+
+<section id="languages">
+  <div class="sec-head"><h2>Programming language courses</h2><p>Build a strong foundation with hands-on coding exercises and a small project at the end of each course.</p></div>
+  <div class="grid">
+    <div class="card lang"><div class="ic">JS</div><h3>JavaScript</h3><p>The language of the web, for interactive pages, apps and servers.</p><div class="cap"><b>Industry use:</b> web front ends, back ends and tooling.</div><button class="btn" data-course="JavaScript">Enroll Now</button></div>
+    <div class="card lang"><div class="ic">C</div><h3>C Programming</h3><p>Understand memory, logic and how computers really work.</p><div class="cap"><b>Industry use:</b> embedded systems, operating systems and performance-critical software.</div><button class="btn" data-course="C Programming">Enroll Now</button></div>
+    <div class="card lang"><div class="ic">Jv</div><h3>Java</h3><p>Object-oriented programming for apps and enterprise systems.</p><div class="cap"><b>Industry use:</b> enterprise applications, Android and large backend systems.</div><button class="btn" data-course="Java">Enroll Now</button></div>
+    <div class="card lang"><div class="ic">Py</div><h3>Python</h3><p>Readable code for automation, data and AI.</p><div class="cap"><b>Industry use:</b> automation, data analysis, machine learning and scripting.</div><button class="btn" data-course="Python">Enroll Now</button></div>
+  </div>
+</section>
+</main>
+
+<footer>&copy; <span id="yr"></span> Minova Technologies. Learn. Build. Ship.</footer>
+
+<!-- Enrollment modal -->
+<div class="overlay" id="enrollOverlay" role="dialog" aria-modal="true" aria-labelledby="etitle">
+  <div class="modal">
+    <button class="x" data-close aria-label="Close">&times;</button>
+    <h2 id="etitle">Enroll now</h2>
+    <p class="sub">Fill in your details and we will get in touch.</p>
+    <form id="enrollForm" novalidate>
+      <label for="fullName">Full name</label>
+      <input id="fullName" autocomplete="name" required>
+      <label for="college">College name</label>
+      <input id="college" required>
+      <label for="regNo">Register number</label>
+      <input id="regNo" required>
+      <label for="phone">Phone number</label>
+      <input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" required>
+      <label for="course">Selected course / language</label>
+      <input id="course" readonly>
+      <button class="btn" id="submitBtn" type="submit">Submit enrollment</button>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Sign Up / Login modal -->
+<div class="overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="atitle">
+  <div class="modal">
+    <button class="x" data-close aria-label="Close">&times;</button>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="signup">Sign Up</button>
+      <button type="button" role="tab" data-tab="login">Login</button>
+    </div>
+    <h2 id="atitle"></h2>
+    <p class="sub" id="asub"></p>
+    <form id="authForm" novalidate>
+      <div id="nameRow"><label for="aName">Full name</label><input id="aName" autocomplete="name"></div>
+      <label for="aEmail">Email ID</label>
+      <input id="aEmail" type="email" autocomplete="email">
+      <label for="aPass">Password</label>
+      <input id="aPass" type="password" minlength="6">
+      <button class="btn" id="authBtn" type="submit"></button>
+      <div class="msg" id="amsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Profile modal -->
+<div class="overlay" id="profileOverlay" role="dialog" aria-modal="true" aria-labelledby="pName">
+  <div class="modal">
+    <button class="x" data-close aria-label="Close">&times;</button>
+    <div class="pavatar" id="pBig"></div>
+    <h2 id="pName"></h2>
+    <dl class="pdl">
+      <dt>Email ID</dt><dd id="pEmail"></dd>
+      <dt>Account status</dt><dd><span class="status">Logged In &middot; Active Student</span></dd>
+      <dt>Enrolled courses</dt><dd id="myCourses"></dd>
+    </dl>
+    <button class="btn" id="logoutBtn" type="button">Log out</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   GOOGLE SHEETS SETUP - two separate sheets, two separate Apps Scripts
+   For EACH sheet: create the Google Sheet, then Extensions > Apps Script,
+   paste the matching code below, then Deploy > New deployment > Web app
+   (Execute as: Me | Who has access: Anyone). Copy the Web app URL into the
+   matching constant. After editing a script later, use Deploy > Manage
+   deployments > Edit > New version so the URL stays the same.
+
+   A) AUTH sheet - row 1 headers:
+      Timestamp | Action | Full Name | Email | Password Hash
+      function doPost(e) {
+        var d = JSON.parse(e.postData.contents);
+        SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().appendRow(
+          [new Date(), d.action, d.fullName, d.email, d.passwordHash || '']);
+        return ContentService.createTextOutput('ok');
+      }
+
+   B) ENROLLMENT sheet - row 1 headers:
+      Timestamp | Full Name | College | Register Number | Phone | Course
+      function doPost(e) {
+        var d = JSON.parse(e.postData.contents);
+        SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().appendRow(
+          [new Date(), d.fullName, d.college, d.registerNumber, d.phone, d.course]);
+        return ContentService.createTextOutput('ok');
+      }
+   ===================================================================== */
+const AUTH_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUuRX-TgEGtQqSM5acGjcN8PDc0xxqTkS2_5KBvxl7ZNRwwrHTjZHNqHnefOuYZW4h/exec";
+const ENROLLMENT_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxndlo0mMCect0WA9lXi6CuSdbnkniMg5Dvv4kFKENhWkWfJprCveCvLNoGK0tT8es/exec";
+
+const $ = s => document.querySelector(s);
+const store = {
+  get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+
+/* Sends JSON to an Apps Script URL. Returns 'demo' while the URL is still a placeholder. */
+async function postToSheet(url, data) {
+  if (url.includes('YOUR_')) { console.warn('Sheet URL not set. Data that would be sent:', data); return 'demo'; }
+  // text/plain + no-cors avoids the CORS preflight that Apps Script rejects.
+  await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
+  return 'sent';
+}
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/* header + footer basics */
+$('#burger').onclick = () => {
+  const open = $('#nav').classList.toggle('open');
+  $('#burger').setAttribute('aria-expanded', open);
+};
+document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => $('#nav').classList.remove('open')));
+$('#yr').textContent = new Date().getFullYear();
+
+/* modals */
+let lastFocus;
+function openModal(id, focusSel) {
+  lastFocus = document.activeElement;
+  $(id).classList.add('open');
+  if (focusSel) setTimeout(() => $(focusSel).focus(), 150);
+}
+function closeAll() {
+  document.querySelectorAll('.overlay.open').forEach(o => o.classList.remove('open'));
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = closeAll);
+document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) closeAll(); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+/* session */
+const users = () => store.get('minovaUsers', {});
+let session = store.get('minovaSession', null);       // logged-in email
+if (session && !users()[session]) { session = null; store.del('minovaSession'); }
+const currentUser = () => (session ? users()[session] : null);
+
+function renderAuth() {
+  const u = currentUser();
+  document.body.classList.toggle('authed', !!u);
+  if (u) {
+    $('#avatar').textContent = u.name.trim().charAt(0).toUpperCase();
+    $('#avatar').setAttribute('aria-label', 'Open profile for ' + u.name);
+  }
+}
+renderAuth();
+
+/* sign up / login */
+let mode = 'signup';
+const amsg = $('#amsg');
+const say = (t, c) => { amsg.textContent = t; amsg.className = 'msg ' + (c || ''); };
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === m));
+  $('#nameRow').style.display = m === 'signup' ? '' : 'none';
+  $('#atitle').textContent = m === 'signup' ? 'Create your account' : 'Welcome back';
+  $('#asub').textContent = m === 'signup' ? 'Sign up first, then log in with the same details.' : 'Log in with your email ID and password.';
+  $('#aPass').autocomplete = m === 'signup' ? 'new-password' : 'current-password';
+  $('#authBtn').textContent = m === 'signup' ? 'Create account' : 'Log in';
+  say('');
+}
+function openAuth(m) { setMode(m); openModal('#authOverlay', m === 'signup' ? '#aName' : '#aEmail'); }
+document.querySelectorAll('[data-signup]').forEach(b => b.onclick = e => { e.preventDefault(); openAuth('signup'); });
+document.querySelectorAll('[data-login]').forEach(b => b.onclick = e => { e.preventDefault(); openAuth('login'); });
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => setMode(b.dataset.tab));
+
+$('#authForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('#aName').value.trim();
+  const email = $('#aEmail').value.trim().toLowerCase();
+  const pass = $('#aPass').value;
+  if (mode === 'signup' && !name) return say('Enter your full name.', 'err');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return say('Enter a valid email ID.', 'err');
+  if (pass.length < 6) return say('Password must be at least 6 characters.', 'err');
+
+  const btn = $('#authBtn'); btn.disabled = true; btn.textContent = 'Please wait...';
+  try {
+    const hash = await sha256(pass), db = users();
+    if (mode === 'signup') {
+      if (db[email]) return say('This email is already registered. Switch to Login.', 'err');
+      db[email] = { name, hash }; store.set('minovaUsers', db);
+      const r = await postToSheet(AUTH_SHEET_SCRIPT_URL, { action: 'signup', fullName: name, email, passwordHash: hash });
+      e.target.reset(); setMode('login'); $('#aEmail').value = email;
+      say('Account created. Now log in.' + (r === 'demo' ? ' (Demo mode: auth sheet URL not set.)' : ''), 'ok');
+      $('#aPass').focus();
+    } else {
+      const u = db[email];
+      if (!u || u.hash !== hash) return say('Email or password is incorrect.', 'err');
+      session = email; store.set('minovaSession', email);
+      await postToSheet(AUTH_SHEET_SCRIPT_URL, { action: 'login', fullName: u.name, email });
+      e.target.reset(); renderAuth(); closeAll();
+    }
+  } catch (err) {
+    say('Something went wrong. Check your connection and try again.', 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = mode === 'signup' ? 'Create account' : 'Log in';
+  }
+});
+
+/* profile popup */
+function openProfile() {
+  const u = currentUser();
+  if (!u) return openAuth('login');
+  $('#pBig').textContent = u.name.trim().charAt(0).toUpperCase();
+  $('#pName').textContent = u.name;
+  $('#pEmail').textContent = session;
+  const list = store.get('minovaEnroll:' + session, []), box = $('#myCourses');
+  box.innerHTML = '';
+  if (!list.length) { box.innerHTML = '<span class="empty">No enrollments yet.</span>'; }
+  list.forEach(c => { const s = document.createElement('span'); s.className = 'chip'; s.textContent = c; box.appendChild(s); });
+  openModal('#profileOverlay');
+}
+$('#avatar').onclick = openProfile;
+document.querySelectorAll('[data-profile]').forEach(b => b.onclick = e => { e.preventDefault(); openProfile(); });
+$('#logoutBtn').onclick = () => { session = null; store.del('minovaSession'); renderAuth(); closeAll(); };
+
+/* course + language enrollment */
+const form = $('#enrollForm'), msg = $('#msg'), submitBtn = $('#submitBtn');
+document.querySelectorAll('[data-course]').forEach(b => b.onclick = () => {
+  $('#etitle').textContent = 'Enroll in ' + b.dataset.course;
+  $('#course').value = b.dataset.course;
+  msg.textContent = ''; msg.className = 'msg';
+  const u = currentUser();
+  if (u && !$('#fullName').value) $('#fullName').value = u.name;
+  openModal('#enrollOverlay', '#fullName');
+});
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = {
+    fullName: $('#fullName').value.trim(),
+    college: $('#college').value.trim(),
+    registerNumber: $('#regNo').value.trim(),
+    phone: $('#phone').value.replace(/[\s-]/g, ''),
+    course: $('#course').value
+  };
+  if (!data.fullName || !data.college || !data.registerNumber) {
+    msg.className = 'msg err'; msg.textContent = 'Please fill in every field.'; return;
+  }
+  if (!/^[6-9]\d{9}$/.test(data.phone)) {
+    msg.className = 'msg err'; msg.textContent = 'Enter a valid 10-digit mobile number.'; return;
+  }
+  submitBtn.disabled = true; submitBtn.textContent = 'Submitting...';
+  try {
+    const r = await postToSheet(ENROLLMENT_SHEET_SCRIPT_URL, data);
+    if (session) {
+      const key = 'minovaEnroll:' + session, list = store.get(key, []);
+      if (!list.includes(data.course)) { list.push(data.course); store.set(key, list); }
+    }
+    msg.className = 'msg ok';
+    msg.textContent = 'Submitted. We will contact you soon.' + (r === 'demo' ? ' (Demo mode: enrollment sheet URL not set.)' : '');
+    form.reset();
+    setTimeout(closeAll, 1800);
+  } catch (err) {
+    msg.className = 'msg err'; msg.textContent = 'Could not submit. Check your connection and try again.';
+  } finally {
+    submitBtn.disabled = false; submitBtn.textContent = 'Submit enrollment';
+  }
+});
+</script>
+</body>
+</html>
