@@ -50,7 +50,7 @@ Explore our platform:
 
 ## 📞 Contact Us
 
-- **Email:** minovatechnogies@gmail.com
+- **Email:** minovatechnologies@gmail.com
 - **Phone:** +91 8122989846
 - **Website:** https://minova-site.vercel.app/
 
