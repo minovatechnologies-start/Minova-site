@@ -4,4 +4,4 @@ services:
     runtime: static
     rootDir: Minova-tech
     buildCommand: npm install && npm run build
-    staticPublishPath: Minova-tech/dist
+    staticPublishPath: dist
