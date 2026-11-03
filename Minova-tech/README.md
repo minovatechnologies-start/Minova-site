@@ -1,16 +1,40 @@
-# React + Vite
+# Minova Tech
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React and Vite website configured for deployment to Render as a static site.
 
-Currently, two official plugins are available:
+## Project structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```text
+.
+├── public/          # Static files copied as-is to the build
+├── src/
+│   ├── App.jsx      # React application entry component
+│   ├── index.css    # Website styles
+│   ├── site.js      # Interactions, forms, and integrations
+│   └── site-content.html # Page markup rendered inside React
+├── index.html       # Vite HTML entry point
+├── package.json     # Scripts and dependencies
+├── render.yaml      # Render deployment configuration
+└── vite.config.js   # Vite configuration
+```
 
-## React Compiler
+The production build is generated in `dist/`; it is created by Vite and should
+not be committed.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Deploy to Render
 
-## Expanding the Oxlint configuration
+1. Push this repository to GitHub or another Git provider supported by Render.
+2. In Render, choose **New → Blueprint** and connect the repository.
+3. Render reads `render.yaml`, installs dependencies with `npm ci`, builds the
+   site with `npm run build`, and publishes `dist/`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+The same settings can be entered manually when creating a Render Static Site:
+
+- **Build command:** `npm ci && npm run build`
+- **Publish directory:** `dist`
+
+## Local development
+
+- `npm run dev` starts the Vite development server.
+- `npm run build` creates the production site in `dist/`.
+- `npm run preview` serves the production build locally.
