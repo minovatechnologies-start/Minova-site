@@ -2,6 +2,5 @@ services:
   - type: web
     name: minova-site
     runtime: static
-    rootDir: Minova-tech
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    buildCommand: npm --prefix Minova-tech ci && npm --prefix Minova-tech run build
+    staticPublishPath: Minova-tech/dist
