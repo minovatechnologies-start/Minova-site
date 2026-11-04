@@ -221,7 +221,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersect
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+  }, { threshold: 0.01, rootMargin: '0px' });
 
   document.body.classList.add('motion-ready');
   revealTargets.forEach(target => {
