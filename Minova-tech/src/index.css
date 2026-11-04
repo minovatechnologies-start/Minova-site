@@ -422,6 +422,40 @@ section{
 .card:hover{transform:translateY(-6px);border-color:rgba(91,227,255,.36);background:linear-gradient(145deg,rgba(25,49,88,.78),rgba(7,18,38,.78) 68%,rgba(15,35,67,.7));box-shadow:inset 0 1px rgba(255,255,255,.09),0 18px 46px rgba(0,0,0,.24),0 0 32px rgba(38,121,209,.11)}
 .card:hover::after{opacity:.68;animation:glassEdge 7s linear infinite}
 @keyframes glassEdge{to{background-position:240% 0}}
+.course-logo{
+  display:block;
+  width:58px;
+  height:58px;
+  padding:7px;
+  object-fit:contain;
+  border:1px solid rgba(133,174,255,.2);
+  border-radius:13px;
+  background:#f3f6fa;
+}
+.language-logo{
+  display:block;
+  width:58px;
+  height:58px;
+  padding:7px;
+  object-fit:contain;
+  border:1px solid rgba(133,174,255,.2);
+  border-radius:13px;
+  background:#f3f6fa;
+}
+.language-sec-head{grid-template-columns:minmax(0,1fr)}
+.course-sec-head{grid-template-columns:minmax(0,1fr)}
+.skill-tags{display:flex;flex-wrap:wrap;gap:7px}
+.skill-tags .skill-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;font-size:.72rem;line-height:1.35}
+.skill-chip img{display:block;width:19px;height:19px;object-fit:contain}
+.skill-chip:has(img:nth-of-type(2)){gap:4px}
+.vision-mission{
+  padding-top:40px;
+  padding-bottom:64px;
+}
+.vision-mission .sec-head{margin-bottom:26px}
+.vision-mission .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vision-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.vision-actions .btn.ghost{margin-left:0}
 .card .ic{width:48px;height:48px;border-radius:13px;border-color:rgba(91,227,255,.17);background:linear-gradient(145deg,rgba(54,128,255,.2),rgba(55,193,221,.07));box-shadow:inset 0 1px rgba(255,255,255,.08)}
 .card h3{font-size:1.08rem;line-height:1.35;letter-spacing:-.025em}
 .card p{color:#a0aec8;font-size:.92rem;line-height:1.75}
@@ -1004,4 +1038,104 @@ footer .footer-contact a,footer .footer-copy,.modal .sub,.pdl dd,
   .application-fields input,.application-fields select,
   .application-fields textarea,.contact-icon,.burger,.chips span,.tags span,
   .btn.ghost,.hero-logo{animation:none}
+}
+
+.sec-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(180px,260px);
+  align-items:center;
+  gap:clamp(20px,5vw,64px);
+  max-width:1160px;
+}
+.sec-head::before{position:absolute;top:0;left:0;margin:0}
+.sec-copy{min-width:0;padding-top:20px}
+.section-art{
+  display:block;
+  width:100%;
+  max-width:260px;
+  height:auto;
+  justify-self:end;
+  aspect-ratio:12/7;
+  object-fit:cover;
+  border:1px solid rgba(133,190,255,.2);
+  border-radius:16px;
+  filter:drop-shadow(0 16px 28px rgba(17,92,181,.18));
+}
+.card .ic svg,.step-icon svg{
+  display:block;
+  width:26px;
+  height:26px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  color:#76e5ff;
+}
+.step-icon{
+  display:grid;
+  width:46px;
+  height:46px;
+  place-items:center;
+  margin-bottom:4px;
+  border:1px solid rgba(91,227,255,.18);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(54,128,255,.2),rgba(55,193,221,.07));
+}
+.enrollment-modal{width:min(560px,100%)}
+.enrollment-modal .application-fields{gap:0 16px}
+.enrollment-modal .application-submit{margin-top:16px}
+.burger svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.flow .step::before,.steps .step::before{content:none}
+@media(max-width:560px){
+  .sec-head{grid-template-columns:minmax(0,1fr);gap:18px}
+  .section-art{width:min(100%,230px);justify-self:end}
+  .enrollment-modal .application-fields{grid-template-columns:minmax(0,1fr)}
+  .vision-mission .grid{grid-template-columns:minmax(0,1fr)}
+}
+.enrollment-overlay{
+  background:rgba(2,6,16,.68);
+  -webkit-backdrop-filter:blur(0);
+  backdrop-filter:blur(0);
+  transition:opacity .28s ease,visibility .28s ease,background-color .28s ease,backdrop-filter .28s ease;
+}
+.enrollment-overlay.open{
+  background:rgba(2,6,16,.76);
+  -webkit-backdrop-filter:blur(9px);
+  backdrop-filter:blur(9px);
+}
+.enrollment-overlay .enrollment-modal{
+  position:relative;
+  overflow-x:hidden;
+  overflow-y:auto;
+  max-height:92vh;
+  border-color:rgba(107,190,255,.32);
+  background:
+    radial-gradient(ellipse at 50% -30%,rgba(55,132,255,.2),transparent 60%),
+    linear-gradient(155deg,rgba(13,28,54,.98),rgba(6,12,25,.99));
+  box-shadow:0 24px 80px rgba(0,0,0,.5),0 0 0 1px rgba(103,173,255,.08),0 0 34px rgba(47,123,255,.12);
+  opacity:0;
+  transform:translateY(14px) scale(.975);
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .24s ease,border-color .32s ease,box-shadow .32s ease;
+  animation:none;
+}
+.enrollment-overlay .enrollment-modal::before{
+  position:absolute;
+  top:0;
+  right:8%;
+  left:8%;
+  height:1px;
+  content:"";
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(121,222,255,.8),rgba(114,157,255,.58),transparent);
+  box-shadow:0 0 16px rgba(94,187,255,.45);
+}
+.enrollment-overlay.open .enrollment-modal{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  border-color:rgba(107,190,255,.48);
+  box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 0 1px rgba(103,173,255,.11),0 0 48px rgba(47,123,255,.2);
+}
+@media(prefers-reduced-motion:reduce){
+  .enrollment-overlay,.enrollment-overlay .enrollment-modal{transition:none}
 }

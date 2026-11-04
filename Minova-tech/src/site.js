@@ -21,20 +21,21 @@ export function initializeSite() {
         return ContentService.createTextOutput('ok');
       }
 
-   B) COLLEGE APPLICATION sheet - row 1 headers:
-      Timestamp | Application Type | Official Name | College | Designation |
-      Official Email | Phone | Course | Message
+   B) STUDENT ENROLLMENT sheet - row 1 headers:
+      Timestamp | Application Type | Student Name | College | Register Number |
+      Phone | Course
       function doPost(e) {
         var d = JSON.parse(e.postData.contents);
         SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().appendRow(
-          [new Date(), d.applicationType, d.officialName, d.college,
-           d.designation, d.officialEmail, d.phone, d.course, d.message]);
+          [new Date(), d.applicationType, d.studentName, d.college,
+           d.registerNumber, d.phone, d.course]);
         return ContentService.createTextOutput('ok');
       }
-   Update and redeploy the enrollment Apps Script to save all college fields.
+   Update and redeploy the enrollment Apps Script to accept student enrollment fields.
    ===================================================================== */
 const AUTH_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUuRX-TgEGtQqSM5acGjcN8PDc0xxqTkS2_5KBvxl7ZNRwwrHTjZHNqHnefOuYZW4h/exec";
 const ENROLLMENT_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxndlo0mMCect0WA9lXi6CuSdbnkniMg5Dvv4kFKENhWkWfJprCveCvLNoGK0tT8es/exec";
+const CONTACT_SHEET_SCRIPT_URL = "YOUR_CONTACT_SHEET_SCRIPT_URL";
 
 const $ = s => document.querySelector(s);
 const store = {
@@ -163,50 +164,113 @@ $('#avatar').onclick = openProfile;
 document.querySelectorAll('[data-profile]').forEach(b => b.onclick = e => { e.preventDefault(); openProfile(); });
 $('#logoutBtn').onclick = () => { session = null; store.del('minovaSession'); renderAuth(); closeAll(); };
 
-/* college course inquiry */
-const form = $('#enrollForm'), msg = $('#msg'), submitBtn = $('#submitBtn');
+/* student course enrollment */
+const enrollmentForm = $('#studentEnrollForm');
+const enrollmentMsg = $('#enrollmentMsg');
+const enrollmentSubmitBtn = $('#studentSubmitBtn');
 document.querySelectorAll('[data-course]').forEach(b => b.onclick = () => {
-  $('#course').value = b.dataset.course;
-  msg.textContent = ''; msg.className = 'msg';
-  $('#contact').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  $('#officialName').focus({ preventScroll: true });
+  $('#studentCourse').value = b.dataset.course;
+  enrollmentMsg.textContent = '';
+  enrollmentMsg.className = 'msg';
+  openModal('#enrollmentOverlay', '#studentName');
 });
 
-form.addEventListener('submit', async e => {
+enrollmentForm.addEventListener('submit', async e => {
   e.preventDefault();
   const data = {
-    applicationType: 'college',
-    officialName: $('#officialName').value.trim(),
-    college: $('#college').value.trim(),
-    designation: $('#designation').value.trim(),
-    officialEmail: $('#officialEmail').value.trim(),
-    phone: $('#phone').value.replace(/[\s-]/g, ''),
-    course: $('#course').value,
-    message: $('#message').value.trim()
+    applicationType: 'student',
+    studentName: $('#studentName').value.trim(),
+    college: $('#studentCollege').value.trim(),
+    registerNumber: $('#registerNumber').value.trim(),
+    phone: $('#studentPhone').value.replace(/[\s-]/g, ''),
+    course: $('#studentCourse').value
   };
-  if (!data.college || !data.officialName || !data.designation || !data.officialEmail || !data.message) {
-    msg.className = 'msg err'; msg.textContent = 'Please fill in every field.'; return;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.officialEmail)) {
-    msg.className = 'msg err'; msg.textContent = 'Enter a valid official email address.'; return;
+  if (!data.studentName || !data.college || !data.registerNumber) {
+    enrollmentMsg.className = 'msg err';
+    enrollmentMsg.textContent = 'Please fill in every field.';
+    return;
   }
   if (!data.course) {
-    msg.className = 'msg err'; msg.textContent = 'Select a course or language.'; return;
+    enrollmentMsg.className = 'msg err';
+    enrollmentMsg.textContent = 'Select a course or language.';
+    return;
   }
   if (!/^[6-9]\d{9}$/.test(data.phone)) {
-    msg.className = 'msg err'; msg.textContent = 'Enter a valid 10-digit mobile number.'; return;
+    enrollmentMsg.className = 'msg err';
+    enrollmentMsg.textContent = 'Enter a valid 10-digit mobile number.';
+    return;
   }
-  submitBtn.disabled = true; submitBtn.textContent = 'Submitting...';
+  enrollmentSubmitBtn.disabled = true;
+  enrollmentSubmitBtn.textContent = 'Submitting...';
   try {
     const r = await postToSheet(ENROLLMENT_SHEET_SCRIPT_URL, data);
-    msg.className = 'msg ok';
-    msg.textContent = 'Submitted. We will contact you soon.' + (r === 'demo' ? ' (Demo mode: enrollment sheet URL not set.)' : '');
-    form.reset();
+    enrollmentMsg.className = 'msg ok';
+    enrollmentMsg.textContent = 'Application submitted. We will contact you soon.' + (r === 'demo' ? ' (Demo mode: enrollment sheet URL not set.)' : '');
+    enrollmentForm.reset();
     setTimeout(closeAll, 1800);
   } catch {
-    msg.className = 'msg err'; msg.textContent = 'Could not submit. Check your connection and try again.';
+    enrollmentMsg.className = 'msg err';
+    enrollmentMsg.textContent = 'Could not submit. Check your connection and try again.';
   } finally {
-    submitBtn.disabled = false; submitBtn.textContent = 'Submit application';
+    enrollmentSubmitBtn.disabled = false;
+    enrollmentSubmitBtn.textContent = 'Submit application';
+  }
+});
+
+/* college contact inquiry */
+const contactForm = $('#contactForm');
+const contactMsg = $('#contactMsg');
+const contactSubmitBtn = $('#contactSubmitBtn');
+contactForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (CONTACT_SHEET_SCRIPT_URL.includes('YOUR_')) {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'The contact form Sheet is not connected yet. Please email minovatechnologies@gmail.com.';
+    return;
+  }
+  const data = {
+    applicationType: 'college',
+    officialName: $('#contactOfficialName').value.trim(),
+    college: $('#contactCollege').value.trim(),
+    designation: $('#contactDesignation').value.trim(),
+    officialEmail: $('#contactOfficialEmail').value.trim(),
+    phone: $('#contactPhone').value.replace(/[\s-]/g, ''),
+    course: $('#contactCourse').value,
+    message: $('#contactMessage').value.trim()
+  };
+  if (!data.college || !data.officialName || !data.designation || !data.message) {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'Please fill in every field.';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.officialEmail)) {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'Enter a valid official email address.';
+    return;
+  }
+  if (!data.course) {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'Select a course or language.';
+    return;
+  }
+  if (!/^[6-9]\d{9}$/.test(data.phone)) {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'Enter a valid 10-digit mobile number.';
+    return;
+  }
+  contactSubmitBtn.disabled = true;
+  contactSubmitBtn.textContent = 'Submitting...';
+  try {
+    await postToSheet(CONTACT_SHEET_SCRIPT_URL, data);
+    contactMsg.className = 'msg ok';
+    contactMsg.textContent = 'Submitted. We will contact you soon.';
+    contactForm.reset();
+  } catch {
+    contactMsg.className = 'msg err';
+    contactMsg.textContent = 'Could not submit. Check your connection and try again.';
+  } finally {
+    contactSubmitBtn.disabled = false;
+    contactSubmitBtn.textContent = 'Submit application';
   }
 });
 
