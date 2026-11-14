@@ -35,7 +35,7 @@ export function initializeSite() {
    ===================================================================== */
 const AUTH_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUuRX-TgEGtQqSM5acGjcN8PDc0xxqTkS2_5KBvxl7ZNRwwrHTjZHNqHnefOuYZW4h/exec";
 const ENROLLMENT_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxndlo0mMCect0WA9lXi6CuSdbnkniMg5Dvv4kFKENhWkWfJprCveCvLNoGK0tT8es/exec";
-const CONTACT_SHEET_SCRIPT_URL = "YOUR_CONTACT_SHEET_SCRIPT_URL";
+const CONTACT_SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuoRvXCZYmwswR2-t8ZXwz1LTNew04jRx-SWkmVGriUn-s0Lf8zYNsldVIWj2q5ktZZw/exec";
 
 const $ = s => document.querySelector(s);
 const store = {
